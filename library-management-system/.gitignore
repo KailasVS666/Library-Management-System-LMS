@@ -1,0 +1,25 @@
+# Compiled Java class files
+*.class
+
+# Log files
+*.log
+
+# Build Folders
+/target/
+
+# Maven generated files
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE specific files
+.classpath
+.project
+.settings
+.idea
+*.iml
+*.iws
+.vscode
+
+# Other
+HELP.md

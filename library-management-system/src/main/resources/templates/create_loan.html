@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Loan</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container mt-4">
+        <h1>Create a New Loan</h1>
+        <form th:action="@{/loans}" th:object="${loan}" method="post">
+            <div class="mb-3">
+                <label for="member" class="form-label">Member</label>
+                <select id="member" th:field="*{member}" class="form-select">
+                    <option value="">Select a Member</option>
+                    <option th:each="memberOpt : ${members}" th:value="${memberOpt.id}" th:text="${memberOpt.firstName} + ' ' + ${memberOpt.lastName}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('member')}" th:errors="*{member}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="book" class="form-label">Book</label>
+                <select id="book" th:field="*{book}" class="form-select">
+                    <option value="">Select a Book</option>
+                    <option th:each="bookOpt : ${books}" th:value="${bookOpt.id}" th:text="${bookOpt.title}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('book')}" th:errors="*{book}"></div>
+            </div>
+             <div class="mb-3">
+                <label for="loanDate" class="form-label">Loan Date</label>
+                <input type="date" id="loanDate" th:field="*{loanDate}" class="form-control">
+                <div class="text-danger" th:if="${#fields.hasErrors('loanDate')}" th:errors="*{loanDate}"></div>
+            </div>
+            <button type="submit" class="btn btn-success">Save Loan</button>
+            <a th:href="@{/loans}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
