@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Loans</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cerulean/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Active Loans</h1>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/loans/new}" class="btn btn-primary">
+                <i class="fas fa-hand-holding-hand"></i> New Loan
+            </a>
+        </div>
+        
+        <table id="loansTable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Book</th>
+                    <th>Loan Date</th>
+                    <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="loan : ${loans}">
+                    <td th:text="${loan.member.firstName} + ' ' + ${loan.member.lastName}"></td>
+                    <td th:text="${loan.book.title}"></td>
+                    <td th:text="${loan.loanDate}"></td>
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/loans/delete/{id}(id=${loan.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to mark this loan as returned?');">
+                            <i class="fas fa-undo"></i> Return
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#loansTable').DataTable();
+        });
+    </script>
+</body>
+</html>
